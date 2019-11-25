@@ -1,4 +1,4 @@
-package comments
+package handlers
 
 import (
 	"net/http"
@@ -11,7 +11,7 @@ type CommentRequestBody struct {
 	Body     string `json:"body"`
 }
 
-func HandleCreateComment(c echo.Context) (err error) {
+func CreateComment(c echo.Context) (err error) {
 	requestBody := new(CommentRequestBody)
 
 	if err := c.Bind(requestBody); err != nil {

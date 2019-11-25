@@ -1,4 +1,4 @@
-package comments
+package handlers
 
 import (
 	"net/http"
@@ -6,6 +6,6 @@ import (
 	"github.com/labstack/echo"
 )
 
-func HandleGetComments(c echo.Context) error {
+func GetComments(c echo.Context) error {
 	return c.String(http.StatusOK, "foo")
 }

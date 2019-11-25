@@ -1,7 +1,7 @@
 package main
 
 import (
-	"hello/presentation/comments"
+	commentHandlers "github.com/unabara-org/go-keijiban/presentation/comment/handlers"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -17,7 +17,7 @@ func main() {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
-	e.POST("/", comments.CreateCommentHandler)
+	e.POST("/", commentHandlers.CreateComment)
 
 	_ = e.Start(":1323")
 }
