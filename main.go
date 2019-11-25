@@ -1,7 +1,7 @@
 package main
 
 import (
-	commentHandlers "github.com/unabara-org/go-keijiban/presentation/comment/handlers"
+	commentHandlers "./presentation/comment/handlers"
 	"net/http"
 
 	"github.com/labstack/echo"
