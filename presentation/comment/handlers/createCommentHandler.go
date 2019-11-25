@@ -11,7 +11,7 @@ type CommentRequestBody struct {
 	Body     string `json:"body"`
 }
 
-func CreateComment(c echo.Context) (err error) {
+func CreateComment(c echo.Context) error {
 	requestBody := new(CommentRequestBody)
 
 	if err := c.Bind(requestBody); err != nil {
