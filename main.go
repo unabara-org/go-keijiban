@@ -1,15 +1,23 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"hello/presentation/comments"
+	"net/http"
+
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
 func main() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
+	e := echo.New()
+
+	e.Use(middleware.Logger())
+
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World!")
 	})
-	_ = r.Run() // 0.0.0.0:8080 でサーバーを立てます。
+
+	e.POST("/", comments.CreateCommentHandler)
+
+	_ = e.Start(":1323")
 }
