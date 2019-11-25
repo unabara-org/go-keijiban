@@ -7,14 +7,20 @@
   - https://github.com/golang-migrate/migrate/tree/master/cmd/migrate
 - 以下のコマンド例は fish shell で確認した
 
+マイグレーションコマンド
+
+```
+migrate --path /db/migrations -database <database_url> up
+```
+
 MySQL のデータベース URL は以下
 
 ```
-$ mysql://user:password@tcp\(host:port\)/dbname?query
+mysql://user:password@tcp\(host:port\)/dbname?query
 ```
 
 例
 
 ```
-$ mysql://user:password@tcp\(localhost:3306\)/go_keijiban
+$ migrate --path /db/migrations -database mysql://user:password@tcp\(localhost:3306\)/go_keijiban up
 ```
