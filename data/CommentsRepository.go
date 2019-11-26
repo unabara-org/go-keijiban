@@ -1,9 +1,9 @@
 package data
 
 import (
-	"../domain"
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/unabara-org/go-keijiban/domain"
 )
 
 type RequestComment struct {
