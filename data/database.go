@@ -16,7 +16,5 @@ func NewDatabase() (db *sql.DB, err error) {
 		os.Getenv("DB_DATABASE"),
 	)
 
-	fmt.Println(source)
-
 	return sql.Open("mysql", source)
 }
