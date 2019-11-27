@@ -1,38 +1,35 @@
 package data
 
 import (
-	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/unabara-org/go-keijiban/domain"
 )
 
-type RequestComment struct {
-	Nickname string
-	Body     string
+type CommentsRepository struct {
 }
 
-func Create(requestComment RequestComment) (*domain.Comment, error) {
-	db, err := sql.Open("mysql", "root:@/go_keijiban")
+func NewCommentsRepository() CommentsRepository {
+	return CommentsRepository{}
+}
+
+func (_ CommentsRepository) Create(comment domain.Comment) error {
+	db, err := NewDatabase()
 	if err != nil {
 		panic(err.Error())
 	}
-	defer db.Close()
 
-	result, err := db.Exec("INSERT INTO comments SET nickname='?', body='?'", requestComment.Nickname, requestComment.Body)
+	// https://github.com/go-sql-driver/mysql/issues/910 を参考にした
+	defer func() {
+		if err := db.Close(); err != nil {
+			// error handle
+		}
+	}()
+
+	_, err = db.Exec("INSERT INTO comments SET id=?, nickname=?, body=?", comment.Id, comment.Nickname, comment.Body)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	insertId, err := result.LastInsertId()
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &domain.Comment{
-		Id:       uint(insertId),
-		Nickname: requestComment.Nickname,
-		Body:     requestComment.Body,
-	}, nil
+	return nil
 }

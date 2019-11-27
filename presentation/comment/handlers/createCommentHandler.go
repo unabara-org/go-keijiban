@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"github.com/unabara-org/go-keijiban/data"
+	"github.com/unabara-org/go-keijiban/domain"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -18,5 +20,13 @@ func CreateComment(c echo.Context) error {
 		return err
 	}
 
-	return c.String(http.StatusOK, requestBody.Nickname)
+	comment := domain.NewComment(requestBody.Nickname, requestBody.Body)
+
+	commentsRepository := data.NewCommentsRepository()
+
+	if err := commentsRepository.Create(comment); err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, comment)
 }
