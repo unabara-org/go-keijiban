@@ -1,0 +1,1 @@
+ALTER TABLE comments MODIFY id int(11) unsigned AUTO_INCREMENT;

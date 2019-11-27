@@ -1,0 +1,1 @@
+ALTER TABLE comments MODIFY id VARCHAR(255);
