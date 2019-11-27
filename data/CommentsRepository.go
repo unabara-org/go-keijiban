@@ -12,7 +12,7 @@ func NewCommentsRepository() CommentsRepository {
 	return CommentsRepository{}
 }
 
-func (_ CommentsRepository) Create(comment domain.Comment) error {
+func (CommentsRepository) Create(comment domain.Comment) error {
 	db, err := NewDatabase()
 	if err != nil {
 		panic(err.Error())
@@ -32,4 +32,36 @@ func (_ CommentsRepository) Create(comment domain.Comment) error {
 	}
 
 	return nil
+}
+
+func (CommentsRepository) Read() ([]domain.Comment, error) {
+	db, err := NewDatabase()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer func() {
+		if err := db.Close(); err != nil {
+			// error handle
+		}
+	}()
+
+	comments := []domain.Comment{}
+	rows, err := db.Query("SELECT id, nickname, body FROM comments")
+
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		comment := domain.Comment{}
+
+		if err := rows.Scan(&comment.Id, &comment.Nickname, &comment.Body); err != nil {
+			return nil, err
+		}
+
+		comments = append(comments, comment)
+	}
+
+	return comments, nil
 }

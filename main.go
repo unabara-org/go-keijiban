@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
-	commentHandlers "github.com/unabara-org/go-keijiban/presentation/comment/handlers"
 	"log"
 	"net/http"
+
+	"github.com/joho/godotenv"
+	commentHandlers "github.com/unabara-org/go-keijiban/presentation/comment/handlers"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -20,6 +21,8 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
+
+	e.GET("/comments", commentHandlers.GetComments)
 
 	e.POST("/", commentHandlers.CreateComment)
 
