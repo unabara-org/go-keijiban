@@ -12,19 +12,18 @@ type Comment struct {
 	Body     string
 }
 
-func NewComment(nickname string, body string) Comment {
-	id := newId()
+func NewComment(id string, nickname string, body string) Comment {
 
 	return Comment{
-		// ここ見たけど、まあそんなもんかって理解でちゃんと分かってない
-		// http://tocsato.hatenablog.com/entry/2016/09/06/080743
 		Id:       id,
 		Nickname: nickname,
 		Body:     body,
 	}
 }
 
-func newId() string {
+func NewCommentId() string {
+	// ここ見たけど、まあそんなもんかって理解でちゃんと分かってない
+	// http://tocsato.hatenablog.com/entry/2016/09/06/080743
 	t := time.Now()
 	entropy := ulid.Monotonic(rand.New(rand.NewSource(t.UnixNano())), 0)
 	id := ulid.MustNew(ulid.Timestamp(t), entropy)
