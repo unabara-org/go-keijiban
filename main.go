@@ -1,14 +1,12 @@
 package main
 
 import (
+	"github.com/joho/godotenv"
+	"github.com/labstack/echo"
+	"github.com/unabara-org/go-keijiban/infrastructure"
+	commentHandlers "github.com/unabara-org/go-keijiban/presentation/comment/handlers"
 	"log"
 	"net/http"
-
-	"github.com/joho/godotenv"
-	commentHandlers "github.com/unabara-org/go-keijiban/presentation/comment/handlers"
-
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
 )
 
 func main() {
@@ -16,7 +14,14 @@ func main() {
 
 	e := echo.New()
 
-	e.Use(middleware.Logger())
+	logger, dispose := infrastructure.NewFileLogger()
+	defer (func () {
+		if err := dispose(); err != nil {
+			// なんかエラーハンドリング
+		}
+	})()
+
+	e.Logger = logger
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
