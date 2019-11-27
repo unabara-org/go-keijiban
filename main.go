@@ -24,7 +24,7 @@ func main() {
 
 	e.GET("/comments", commentHandlers.GetComments)
 
-	e.POST("/", commentHandlers.CreateComment)
+	e.POST("/comments", commentHandlers.CreateComment)
 
 	_ = e.Start(":1323")
 }
