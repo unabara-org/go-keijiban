@@ -9,7 +9,20 @@ import (
 )
 
 func GetComments(c echo.Context) error {
-	commentsRepository := data.NewCommentsRepository()
+	db, err := data.NewDatabase()
+
+	if err != nil {
+		return err
+	}
+
+	// https://github.com/go-sql-driver/mysql/issues/910 を参考にした
+	defer func() {
+		if err := db.Close(); err != nil {
+			// error handle
+		}
+	}()
+
+	commentsRepository := data.NewCommentsRepository(db)
 	comments, err := commentsRepository.Read()
 
 	if err != nil {

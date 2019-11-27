@@ -1,9 +1,10 @@
 package handlers
 
 import (
+	"net/http"
+
 	"github.com/unabara-org/go-keijiban/data"
 	"github.com/unabara-org/go-keijiban/domain"
-	"net/http"
 
 	"github.com/labstack/echo"
 )
@@ -26,7 +27,20 @@ func CreateComment(c echo.Context) error {
 		requestBody.Body,
 	)
 
-	commentsRepository := data.NewCommentsRepository()
+	db, err := data.NewDatabase()
+
+	if err != nil {
+		return err
+	}
+
+	// https://github.com/go-sql-driver/mysql/issues/910 を参考にした
+	defer func() {
+		if err := db.Close(); err != nil {
+			// error handle
+		}
+	}()
+
+	commentsRepository := data.NewCommentsRepository(db)
 
 	if err := commentsRepository.Create(comment); err != nil {
 		return err

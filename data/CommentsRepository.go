@@ -1,31 +1,22 @@
 package data
 
 import (
+	"database/sql"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/unabara-org/go-keijiban/domain"
 )
 
 type CommentsRepository struct {
+	db *sql.DB
 }
 
-func NewCommentsRepository() CommentsRepository {
-	return CommentsRepository{}
+func NewCommentsRepository(db *sql.DB) CommentsRepository {
+	return CommentsRepository{db: db}
 }
 
-func (CommentsRepository) Create(comment domain.Comment) error {
-	db, err := NewDatabase()
-	if err != nil {
-		panic(err.Error())
-	}
-
-	// https://github.com/go-sql-driver/mysql/issues/910 を参考にした
-	defer func() {
-		if err := db.Close(); err != nil {
-			// error handle
-		}
-	}()
-
-	_, err = db.Exec("INSERT INTO comments SET id=?, nickname=?, body=?", comment.Id, comment.Nickname, comment.Body)
+func (commentsRepository CommentsRepository) Create(comment domain.Comment) error {
+	_, err := commentsRepository.db.Exec("INSERT INTO comments SET id=?, nickname=?, body=?", comment.Id, comment.Nickname, comment.Body)
 
 	if err != nil {
 		return err
@@ -34,20 +25,9 @@ func (CommentsRepository) Create(comment domain.Comment) error {
 	return nil
 }
 
-func (CommentsRepository) Read() ([]domain.Comment, error) {
-	db, err := NewDatabase()
-	if err != nil {
-		panic(err.Error())
-	}
-
-	defer func() {
-		if err := db.Close(); err != nil {
-			// error handle
-		}
-	}()
-
+func (commentsRepository CommentsRepository) Read() ([]domain.Comment, error) {
 	comments := []domain.Comment{}
-	rows, err := db.Query("SELECT id, nickname, body FROM comments")
+	rows, err := commentsRepository.db.Query("SELECT id, nickname, body FROM comments")
 
 	if err != nil {
 		return nil, err
