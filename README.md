@@ -22,5 +22,5 @@ mysql://user:password@tcp\(host:port\)/dbname?query
 例
 
 ```
-$ migrate --path /db/migrations -database mysql://user:password@tcp\(localhost:3306\)/go_keijiban up
+$ migrate --path ./db/migrations -database mysql://user:password@tcp\(localhost:3306\)/go_keijiban up
 ```
