@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func NewFileLogger() (echo.Logger, func() error) {
+func NewFileLogger() (l echo.Logger, dispose func() error) {
 	path := "storage/logs/log"
 
 	var file *os.File
