@@ -20,7 +20,11 @@ func CreateComment(c echo.Context) error {
 		return err
 	}
 
-	comment := domain.NewComment(requestBody.Nickname, requestBody.Body)
+	comment := domain.NewComment(
+		domain.NewCommentId(),
+		requestBody.Nickname,
+		requestBody.Body,
+	)
 
 	commentsRepository := data.NewCommentsRepository()
 

@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func NewDatabase() (db *sql.DB, err error) {
+func NewDatabase() (*sql.DB, error) {
 	// 下のようになる
 	// "root:password@tcp(localhost:3306)/go_keijiban"
 	source := fmt.Sprintf(
