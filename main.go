@@ -1,7 +1,9 @@
 package main
 
 import (
+	"github.com/joho/godotenv"
 	commentHandlers "github.com/unabara-org/go-keijiban/presentation/comment/handlers"
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -9,6 +11,8 @@ import (
 )
 
 func main() {
+	envLoad()
+
 	e := echo.New()
 
 	e.Use(middleware.Logger())
@@ -20,4 +24,11 @@ func main() {
 	e.POST("/", commentHandlers.CreateComment)
 
 	_ = e.Start(":1323")
+}
+
+func envLoad() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 }
