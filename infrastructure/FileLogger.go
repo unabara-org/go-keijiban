@@ -26,7 +26,7 @@ func NewFileLogger() (l echo.Logger, dispose func() error) {
 		}
 	}
 
-	l := log.New("")
+	l = log.New("")
 	l.SetOutput(file)
 
 	return l, func() error {
