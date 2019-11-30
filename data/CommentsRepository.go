@@ -26,7 +26,7 @@ func (commentsRepository CommentsRepository) Create(comment domain.Comment) erro
 }
 
 func (commentsRepository CommentsRepository) Read() ([]domain.Comment, error) {
-	comments := []domain.Comment{}
+	var comments []domain.Comment
 	rows, err := commentsRepository.db.Query("SELECT id, nickname, body FROM comments")
 
 	if err != nil {
