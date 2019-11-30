@@ -15,8 +15,8 @@ func NewCommentsRepository(db *sql.DB) CommentsRepository {
 	return CommentsRepository{db: db}
 }
 
-func (commentsRepository CommentsRepository) Create(comment domain.Comment) error {
-	_, err := commentsRepository.db.Exec("INSERT INTO comments SET id=?, nickname=?, body=?", comment.Id, comment.Nickname, comment.Body)
+func (r CommentsRepository) Create(comment domain.Comment) error {
+	_, err := r.db.Exec("INSERT INTO comments SET id=?, nickname=?, body=?", comment.Id, comment.Nickname, comment.Body)
 
 	if err != nil {
 		return err
@@ -25,9 +25,9 @@ func (commentsRepository CommentsRepository) Create(comment domain.Comment) erro
 	return nil
 }
 
-func (commentsRepository CommentsRepository) Read() ([]domain.Comment, error) {
+func (r CommentsRepository) Read() ([]domain.Comment, error) {
 	var comments []domain.Comment
-	rows, err := commentsRepository.db.Query("SELECT id, nickname, body FROM comments")
+	rows, err := r.db.Query("SELECT id, nickname, body FROM comments")
 
 	if err != nil {
 		return nil, err
@@ -45,3 +45,4 @@ func (commentsRepository CommentsRepository) Read() ([]domain.Comment, error) {
 
 	return comments, nil
 }
+
