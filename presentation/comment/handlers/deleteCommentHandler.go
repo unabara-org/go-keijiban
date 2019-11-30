@@ -40,5 +40,5 @@ func DeleteComment(c echo.Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusNoContent, nil)
+	return c.NoContent(http.StatusNoContent)
 }
