@@ -2,6 +2,7 @@ package handlers
 
 import (
 	domainComment "github.com/unabara-org/go-keijiban/domain/comment"
+	"github.com/unabara-org/go-keijiban/presentation/comment/mappers"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -45,5 +46,5 @@ func CreateComment(c echo.Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, comment)
+	return c.JSON(http.StatusOK, mappers.MapCommentToResponseComment(comment))
 }
