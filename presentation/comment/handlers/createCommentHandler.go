@@ -18,7 +18,7 @@ func CreateComment(c echo.Context) error {
 	requestBody := new(createRequestBody)
 
 	if err := c.Bind(requestBody); err != nil {
-		return err
+		return c.NoContent(http.StatusBadRequest)
 	}
 
 	comment := domainComment.NewComment(
@@ -30,7 +30,7 @@ func CreateComment(c echo.Context) error {
 	db, err := data.NewDatabase()
 
 	if err != nil {
-		return err
+		return c.NoContent(http.StatusInternalServerError)
 	}
 
 	// https://github.com/go-sql-driver/mysql/issues/910 を参考にした
@@ -43,7 +43,7 @@ func CreateComment(c echo.Context) error {
 	commentsRepository := data.NewCommentsRepository(db)
 
 	if err := commentsRepository.Create(comment); err != nil {
-		return err
+		return c.NoContent(http.StatusInternalServerError)
 	}
 
 	return c.JSON(http.StatusOK, mappers.MapCommentToResponseComment(comment))
