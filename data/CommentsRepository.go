@@ -22,7 +22,7 @@ func NewCommentsRepository(db *sql.DB) CommentsRepository {
 }
 
 func (r CommentsRepository) Create(comment domainComment.Comment) error {
-	_, err := r.db.Exec("INSERT INTO comments SET id=?, nickname=?, body=?", comment.Id, comment.Nickname, comment.Body)
+	_, err := r.db.Exec("INSERT INTO comments SET id=?, nickname=?, body=?", comment.Id.String(), comment.Nickname, comment.Body)
 
 	if err != nil {
 		return err
