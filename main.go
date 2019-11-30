@@ -32,6 +32,8 @@ func main() {
 
 	e.PATCH("/comments/:id", commentHandlers.UpdateComment)
 
+	e.DELETE("/comments/:id", commentHandlers.DeleteComment)
+
 	_ = e.Start(":1323")
 }
 

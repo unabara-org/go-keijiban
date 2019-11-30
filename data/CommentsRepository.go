@@ -81,6 +81,26 @@ func (r CommentsRepository) Find(id domainComment.Id) (*domainComment.Comment, e
 	return comment, nil
 }
 
+func (r CommentsRepository) Delete(comment domainComment.Comment) error {
+	result, err := r.db.Exec("DELETE FROM comments WHERE id=?", comment.Id.String())
+
+	if err != nil {
+		return err
+	}
+
+	rows, err := result.RowsAffected()
+
+	if err != nil {
+		return err
+	}
+
+	if rows == 0 {
+		return err
+	}
+
+	return nil
+}
+
 func mapQueryRecordToComment(record queryRecord) (*domainComment.Comment, error) {
 	id, err := domainComment.NewIdFromString(record.Id)
 
