@@ -1,12 +1,19 @@
 package handlers
 
 import (
+	domainComment "github.com/unabara-org/go-keijiban/domain/comment"
 	"net/http"
 
 	"github.com/unabara-org/go-keijiban/data"
 
 	"github.com/labstack/echo"
 )
+
+type responseComment struct {
+	Id string
+	Nickname string
+	Body string
+}
 
 func GetComments(c echo.Context) error {
 	db, err := data.NewDatabase()
@@ -29,5 +36,19 @@ func GetComments(c echo.Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, comments)
+	var responseComments []responseComment
+
+	for _, comment := range comments {
+		responseComments = append(responseComments, mapCommentToResponseComment(comment))
+	}
+
+	return c.JSON(http.StatusOK, responseComments)
+}
+
+func mapCommentToResponseComment(comment domainComment.Comment) responseComment {
+	return responseComment{
+		Id:       comment.Id.String(),
+		Nickname: comment.Nickname,
+		Body:     comment.Body,
+	}
 }

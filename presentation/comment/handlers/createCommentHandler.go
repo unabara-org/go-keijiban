@@ -1,28 +1,27 @@
 package handlers
 
 import (
+	domainComment "github.com/unabara-org/go-keijiban/domain/comment"
 	"net/http"
 
-	"github.com/unabara-org/go-keijiban/data"
-	"github.com/unabara-org/go-keijiban/domain"
-
 	"github.com/labstack/echo"
+	"github.com/unabara-org/go-keijiban/data"
 )
 
-type CommentRequestBody struct {
+type createRequestBody struct {
 	Nickname string `json:"nickname"`
 	Body     string `json:"body"`
 }
 
 func CreateComment(c echo.Context) error {
-	requestBody := new(CommentRequestBody)
+	requestBody := new(createRequestBody)
 
 	if err := c.Bind(requestBody); err != nil {
 		return err
 	}
 
-	comment := domain.NewComment(
-		domain.NewCommentId(),
+	comment := domainComment.NewComment(
+		domainComment.NewId(),
 		requestBody.Nickname,
 		requestBody.Body,
 	)
