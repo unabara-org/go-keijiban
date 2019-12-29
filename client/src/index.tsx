@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
+import { ThreadListPage } from './pages/ThreadListPage/ThreadListPage'
 import styled from 'styled-components'
-import { CommentComponent } from './CommentComponent'
-import { CommentForm } from './CommentForm'
-import set = Reflect.set
+import { ThreadPage } from './pages/ThreadPage/ThreadPage'
 
 document.addEventListener('DOMContentLoaded', () => {
   const rootEl = document.getElementById('root')
@@ -13,91 +11,48 @@ document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(<App />, rootEl)
 })
 
-export type Comment = {
-  id: string
-  nickname: string
-  body: string
-  postedAt: Date
-}
-
-export type CommentDraft = {
-  nickname: string
-  body: string
-}
-
-function useComments() {
-  const [comments, setComments] = useState<Comment[]>([
-    {
-      id: 'FOo',
-      nickname: 'スズキ',
-      body: 'テスト投稿',
-      postedAt: new Date(),
-    },
-    {
-      id: 'Bar',
-      nickname: '88888',
-      body: 'BC',
-      postedAt: new Date(),
-    },
-  ])
-
-  async function post(draft: CommentDraft) {
-    // ここで API たたく
-  }
-
-  return {
-    comments,
-    setComments,
-    post,
-  }
-}
-
 const App: React.FC = () => {
-  const { comments, post } = useComments()
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
-
-  const onPost = (draft: CommentDraft) => {
-    post(draft).then(() => {
-      setModalIsOpen(false)
-    })
-  }
-
   return (
-    <div className="flex justify-center h-full bg-gray-100">
-      <div className="max-w-lg h-full bg-white relative">
-        <Container>
-          <HeaderArea>
-            <div className="font-bold text-lg px-4">しょぼい掲示板</div>
-          </HeaderArea>
-          <ContentArea>
-            <div
-              className="flex flex-col justify-between"
-              style={{ marginBottom: '80px' }}
-            >
-              <div>
-                {comments.map((comment) => (
-                  <CommentComponent key={comment.id} comment={comment} />
-                ))}
+    <BrowserRouter>
+      <div className="flex justify-center h-full bg-gray-100">
+        <Wrapper className="h-full bg-white relative">
+          <Container>
+            <HeaderArea>
+              <div className="px-4">
+                <Link to="/">
+                  <Title>しょぼい掲示板</Title>
+                </Link>
               </div>
-            </div>
-          </ContentArea>
-        </Container>
-        <div style={{ position: 'absolute', bottom: '16px', right: '16px' }}>
-          <div
-            className="bg-red-800 rounded-full flex justify-center items-center cursor-pointer"
-            style={{ width: '64px', height: '64px' }}
-            onClick={() => setModalIsOpen(true)}
-          >
-            <div>
-              <FontAwesomeIcon icon={faCoffee} color="white" />
-            </div>
-          </div>
-        </div>
-        {modalIsOpen && <CommentForm onPost={onPost} />}
+            </HeaderArea>
+            <ContentArea>
+              <div
+                className="flex flex-col justify-between"
+                style={{ marginBottom: '80px' }}
+              >
+                <Switch>
+                  <Route exact path="/">
+                    <ThreadListPage />
+                  </Route>
+                  <Route path="/threads/:id">
+                    <ThreadPage />
+                  </Route>
+                </Switch>
+              </div>
+            </ContentArea>
+          </Container>
+        </Wrapper>
       </div>
-    </div>
+    </BrowserRouter>
   )
 }
+
+const Wrapper = styled.div`
+  width: 640px;
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+`
 
 const Container = styled.div`
   display: grid;
@@ -116,4 +71,21 @@ const HeaderArea = styled.div`
 const ContentArea = styled.div`
   grid-area: Content;
   overflow: scroll;
+`
+
+const Title = styled.span`
+  font-weight: bold;
+
+  // これを参考にした
+  // https://spyweb.media/2017/11/16/css-hover-text-highlighter-line-animation/
+  background-image: linear-gradient(transparent 60%, yellow 40%);
+  background-position: 200% 0%;
+  background-size: 200% auto;
+  background-repeat: no-repeat;
+
+  transition: background-position 0.3s ease-out;
+
+  &:hover {
+    background-position: 0% 0%;
+  }
 `
