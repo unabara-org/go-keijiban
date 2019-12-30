@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	comments2 "github.com/unabara-org/go-keijiban/data/comments"
 	"net/http"
 
 	presentationComment "github.com/unabara-org/go-keijiban/presentation/comment"
@@ -25,7 +26,7 @@ func GetComments(c echo.Context) error {
 		}
 	}()
 
-	commentsRepository := data.NewCommentsRepository(db)
+	commentsRepository := comments2.NewCommentsRepository(db)
 	comments, err := commentsRepository.Read()
 
 	if err != nil {

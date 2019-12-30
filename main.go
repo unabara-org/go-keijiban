@@ -4,6 +4,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
 	commentHandlers "github.com/unabara-org/go-keijiban/presentation/comment/handlers"
+	threadHandlers "github.com/unabara-org/go-keijiban/presentation/thread/handlers"
 	"log"
 	"net/http"
 )
@@ -25,6 +26,8 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
+
+	e.POST("/threads", threadHandlers.CreateThread)
 
 	e.GET("/comments", commentHandlers.GetComments)
 

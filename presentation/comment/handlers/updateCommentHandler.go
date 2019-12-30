@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/labstack/echo"
 	"github.com/unabara-org/go-keijiban/data"
+	"github.com/unabara-org/go-keijiban/data/comments"
 	domainComment "github.com/unabara-org/go-keijiban/domain/comment"
 	"github.com/unabara-org/go-keijiban/presentation/comment/mappers"
 	"net/http"
@@ -31,7 +32,7 @@ func UpdateComment(c echo.Context) error {
 		return err
 	}
 
-	commentsRepository := data.NewCommentsRepository(db)
+	commentsRepository := comments.NewCommentsRepository(db)
 
 	comment, err := commentsRepository.Find(*id)
 

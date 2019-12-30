@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/unabara-org/go-keijiban/data/comments"
 	"net/http"
 
 	domainComment "github.com/unabara-org/go-keijiban/domain/comment"
@@ -29,7 +30,7 @@ func DeleteComment(c echo.Context) error {
 		return err
 	}
 
-	commentsRepository := data.NewCommentsRepository(db)
+	commentsRepository := comments.NewCommentsRepository(db)
 	comment, err := commentsRepository.Find(*id)
 
 	if err != nil {

@@ -1,9 +1,10 @@
 package handlers
 
 import (
-	"github.com/unabara-org/go-keijiban/data/comments"
+	dataNewThread "github.com/unabara-org/go-keijiban/data/new_thread"
 	domainComment "github.com/unabara-org/go-keijiban/domain/comment"
-	"github.com/unabara-org/go-keijiban/presentation/comment/mappers"
+	domainNewThread "github.com/unabara-org/go-keijiban/domain/new_thread"
+	domainThread "github.com/unabara-org/go-keijiban/domain/thread"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -11,11 +12,12 @@ import (
 )
 
 type createRequestBody struct {
+	Title    string `json:"title"`
 	Nickname string `json:"nickname"`
 	Body     string `json:"body"`
 }
 
-func CreateComment(c echo.Context) error {
+func CreateThread(c echo.Context) error {
 	requestBody := new(createRequestBody)
 
 	if err := c.Bind(requestBody); err != nil {
@@ -26,6 +28,12 @@ func CreateComment(c echo.Context) error {
 		domainComment.NewId(),
 		requestBody.Nickname,
 		requestBody.Body,
+	)
+
+	newThread := domainNewThread.NewNewThread(
+		domainThread.NewId(),
+		requestBody.Title,
+		comment,
 	)
 
 	db, err := data.NewDatabase()
@@ -41,11 +49,11 @@ func CreateComment(c echo.Context) error {
 		}
 	}()
 
-	commentsRepository := comments.NewCommentsRepository(db)
+	newThreadRepository := dataNewThread.NewNewThreadRepository(db)
 
-	if err := commentsRepository.Create(comment); err != nil {
+	if err := newThreadRepository.Create(newThread); err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
-	return c.JSON(http.StatusOK, mappers.MapCommentToResponseComment(comment))
+	return c.NoContent(http.StatusCreated)
 }
