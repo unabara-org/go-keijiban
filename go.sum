@@ -23,6 +23,7 @@ github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJy
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/unabara-org/go-keijiban v0.0.0-20191130173042-afed7f687920 h1:B35XdFC3oy5FqVRMeG2flNq9ChcinURpwEriWwzyZbs=
 github.com/unabara-org/go-keijiban v0.0.0-20191130173042-afed7f687920/go.mod h1:tucYTKCIEu9bDgAxSl37nigQz/YtTDywJCoDFbv/ZBI=
+github.com/unabara-org/go-keijiban v0.0.0-20191229192506-a03b6e787c70 h1:VbuDdFtbs36a8vuQzZd84Js/QfZRoStDH1hthJodeOg=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/valyala/fasttemplate v1.0.1 h1:tY9CJiPnMXf1ERmG2EyK7gNUd+c6RKGD0IfU8WdUSz8=
